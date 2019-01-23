@@ -424,30 +424,32 @@ if __name__ == '__main__':
         num_players = ask_num_players()
         player_names = collect_player_names(num_players)
         score_sheet = [[] for names in player_names]
-        for frame_index in range(9):#we are going to do frame 10 on its own
-            for player_index in range(len(player_names)):
+        for frame_index in range(9):#we loop the first 9 frames
+            for player_index in range(len(player_names)):#for each player
                 throws = ""
-                
+                #frames entered in stdin must pass validation to be accepted
                 while not validate_frame_score(throws,False):
                     throws = raw_input(("Input frame %d for player '%s' " 
                                         + "as comma-separated list of pins hit"
                                         + " including X or / as appropriate:\n")
                                         %((frame_index+1),player_names[
                                                     player_index]))
+                #internally, frames are stored as lists of single character strings
                 score_sheet[player_index].append(throws.split(","))
                 print("Completed frame %d for player '%s'."
                         %((frame_index+1),player_names[player_index]))
+                #score calculation returns None if the full value of a
+                #strike or spare has yet to be determined
                 score = calculate_current_score(score_sheet[player_index])
                 if score is not None:
                     print("Their current score is %d"%score)
                 else:
                     print("(Their current score is unavailable)")
-            if num_players > 1:
+            if num_players > 1:#we clean up output for single players
                 print("Completed frame %d for all players."%(frame_index+1))
-                
+        #the last frame is its own loop over the players
         for player_index in range(len(player_names)):
             throws = ""
-            
             while not validate_frame_score(throws,True):
                 throws = raw_input(("Input frame 10 for player '%s' " 
                                     + "as comma-separated list of pins hit"
@@ -456,6 +458,7 @@ if __name__ == '__main__':
             score_sheet[player_index].append(throws.split(","))
             print("Completed frame 10 for player '%s'"
                         %player_names[player_index])
+            #on 10 frames, we can always find the final score
             print("Final score: " + str(calculate_current_score(
                                                 score_sheet[player_index])))
             
