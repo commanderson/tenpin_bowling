@@ -13,10 +13,12 @@ After each player name is entered, scorekeeping begins. For each of 10 frames, a
 Please note the following:
 The tenth frame is special, and will have either two or three comma-separated throws; other frames will contain either one or two.
 
-```AT PRESENT, NO VALIDATION BEYOND LENGTH CHECKING IS DONE ON FRAME INPUTS```
+Frames are are validated internally and will not be accepted until a valid string for the frame in question is entered.
 
-While a number of validation approaches suggest themselves, it will take a while to code on its own and I would rather this exercise serve as a brief demo of ability than a lengthy showcase of string validation logic. I'd be happy to spend more time on implementing frame score validation if you are interested in seeing it.
+For any frame but the 10th, valid frames match the regular expression `^(X)$|^([0-9]),([0-9\/])$` and the sum of digits entered will not exceed 9
 
-After each frame is entered, the frame (and corresponding player) which was just completed will be displayed, as well as that player's current score
+For the 10th frame, valid frames match the regular expression `^([0-9]),([0-9])$|^([0-9]),(\/),([0-9X])$|^(X),([0-9X]),([0-9X\/])$`, the sum of digits when matching the first or last pattern will not exceed 9, and a spare ('/') will always follow a digit.
+After each frame is entered, the frame (and corresponding player) which was just completed will be displayed, as well as that player's current score. If a player's current score is unavailable because the value of a strike or spare is still being determined, a notification that the current score is unavailable will be displayed instead. On the final frame(frame 10), the score is always available, and will be displayed as "Final Score" instead of "Current Score".
+If more than one player is playing, the application will print "Completed frame {n} for all players." after each frame.
 
-Once ten frames have been entered for all players, a list of players and their corresponding final scores will be displayed, and the application will exit.
+Once ten frames have been entered for all players, the application will display "Game Complete." A list of players and their corresponding final scores will be displayed, and the application will exit.
